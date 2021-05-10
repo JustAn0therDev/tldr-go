@@ -3,26 +3,13 @@ package main
 import (
     "fmt"
     "os"
-    "io/ioutil"
+    "github.com/JustAn0therDev/tldr-go/mdparser"
 )
-
 
 func checkError(err error) {
     if err != nil {
         panic(err)
     }
-}
-
-func PathExists(path string) (bool, error) {
-    _, err := os.Stat(path)
-    if err == nil { return true, nil }
-    if os.IsNotExist(err) { return false, nil }
-    return false, err
-}
-
-func GetFileContent(path string, fileName string) ([]byte, error) {
-    pathWithFileName := fmt.Sprintf("%v/%v", path, fileName)
-    return ioutil.ReadFile(pathWithFileName)
 }
 
 // main is all lower-case because we don't want to export it to other files
@@ -35,7 +22,7 @@ func main() {
     pathArg := os.Args[1]
     fileName := os.Args[2]
 
-    pathExists, err := PathExists(pathArg)
+    pathExists, err := mdparser.PathExists(pathArg)
 
     checkError(err)
 
@@ -43,7 +30,7 @@ func main() {
         panic("The path does not exist")
     }
 
-    buffer, err := GetFileContent(pathArg, fileName)
+    buffer, err := mdparser.GetFileContent(pathArg, fileName)
 
     checkError(err)
 
