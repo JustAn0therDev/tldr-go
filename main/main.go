@@ -7,8 +7,6 @@ import (
     "github.com/JustAn0therDev/tldr-go/utils"
 )
 
-// main is all lower-case because we don't want to export it to other files
-// every property or function that starts in upper case is "importable" from other files
 func main() {
     // the first argument is always the name of the program (in this case, "tldr-go")
     // For now, the only thing that will be accepted as a command-line argument is the name
