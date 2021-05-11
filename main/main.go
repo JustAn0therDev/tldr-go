@@ -4,13 +4,8 @@ import (
     "fmt"
     "os"
     "github.com/JustAn0therDev/tldr-go/mdparser"
+    "github.com/JustAn0therDev/tldr-go/utils"
 )
-
-func checkError(err error) {
-    if err != nil {
-        panic(err)
-    }
-}
 
 // main is all lower-case because we don't want to export it to other files
 // every property or function that starts in upper case is "importable" from other files
@@ -24,7 +19,7 @@ func main() {
 
     pathExists, err := mdparser.PathExists(pathArg)
 
-    checkError(err)
+    utils.CheckError(err)
 
     if !pathExists {
         panic("The path does not exist")
@@ -32,7 +27,7 @@ func main() {
 
     buffer, err := mdparser.GetFileContent(pathArg, fileName)
 
-    checkError(err)
+    utils.CheckError(err)
 
     fmt.Println(string(buffer))
 }
