@@ -15,8 +15,7 @@ import (
 // of a program. A directory inside the base program will have the same name and a bunch of
 // ".md" files with command descriptions.
 
-// TODO: Create a UI module that will have the responsibility for rendering the markdown content in different colors
-
+// TODO: Create a UI module that will have the responsibility of rendering the markdown content in different colors
 
 // TODO: When the program (or UI handling STDOUT execution) ends, it MUST UNSET THE BUFFER COLOR. Else it will keep printing
 // other stuff after the program ended with the same last color that was used by tldr-go
@@ -37,9 +36,5 @@ func main() {
 
     utils.CheckError(err)
 
-    // these functions probably do not execute together because Go is asynchronous,
-    // so these will execute later. With defer, we can wait for the function to end and execute the rest
-    // DOING: Print this with color
-    // fmt.Println(fileContent)
     mdparser.ParseMarkdownString(fileContent)
 }

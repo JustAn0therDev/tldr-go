@@ -5,61 +5,73 @@ import (
     "github.com/fatih/color"
 )
 
-// TODO: Complete this function
+// TODO: Refactor this function
+// the package I'm using does not return errors anywhere. I feel like this is bad, it should fail at some point and it's probably 
+// calling panic and just cutting the execution of the main program altogether
 func ParseMarkdownString(mdContent string) {
-    color.Set(color.FgRed, color.Bold)
-    currentString := ""
+    currentLine := ""
     iterator := 0
+    colorInstance := color.New()
 
     for iterator < len(mdContent) {
         currentRune := mdContent[iterator]
 
-        // I could just clean up the whole string with a regular expression
-        // But I want different colors for different occurrences inside the markup
+        // I still don't know if this is bad code just because its not using some design pattern
+        // or because it has a bunch of if statements in it. This is something that I definitely need to think about
+
+        // Thinking about the use of "if statements" is simply over engineering or just being cautious so the code does not because a bigger mess in the future.
         if currentRune == '\n' {
-            isHeaderMarkup := isHeaderMarkup(currentString)
-            isCodeMarkup := isCodeMarkup(currentString)
 
-            if isHeaderMarkup {
-                c := color.New(color.FgRed)
-                c.Add(color.Bold)
+            if isBiggestHeaderMarkup(currentLine) {
+                colorInstance.Add(color.FgRed)
+                colorInstance.Add(color.Bold)
 
-                currentString = getStringTrimmedAndWithNoHeaderMarkups(currentString)
-                c.Println(currentString)
+                currentLine = getStringTrimmedAndWithNoHeaderMarkups(currentLine)
+            } else if isHeaderMarkup(currentLine) {
+                colorInstance.Add(color.FgWhite)
+                colorInstance.Add(color.Bold)
+
+                currentLine = getStringTrimmedAndWithNoHeaderMarkups(currentLine)
+            } else if isCodeMarkup(currentLine) {
+                currentLine = getStringTrimmedAndWithNoCodeMarkups(currentLine)
+                colorInstance.Add(color.FgCyan)
+            } else {
+               colorInstance.Add(color.FgWhite)
             }
 
-            if isCodeMarkup {
-                currentString = getStringTrimmedAndWithNoCodeMarkups(currentString)
-                color.Cyan(currentString)
-            }
+            colorInstance.Println(currentLine)
 
-            currentString = ""
+            currentLine = ""
         } else {
-            currentString += string(currentRune)
+            currentLine += string(currentRune)
         }
 
         iterator++
     }
 }
 
-func isHeaderMarkup(currentString string) bool {
-    return strings.Count(currentString, "#") > 0
+func isBiggestHeaderMarkup(currentLine string) bool {
+    return strings.Count(currentLine, "#") == 1
 }
 
-func isCodeMarkup(currentString string) bool {
-   return strings.Count(currentString, "`") >= 1
+func isHeaderMarkup(currentLine string) bool {
+    return strings.Count(currentLine, "#") >= 2
 }
 
-func getStringTrimmedAndWithNoHeaderMarkups(currentString string) string {
-    replacedString := strings.ReplaceAll(currentString, "#", "")
+func isCodeMarkup(currentLine string) bool {
+   return strings.Count(currentLine, "`") >= 1
+}
+
+func getStringTrimmedAndWithNoHeaderMarkups(currentLine string) string {
+    replacedString := strings.ReplaceAll(currentLine, "#", "")
     return getTrimmedString(replacedString)
 }
 
-func getStringTrimmedAndWithNoCodeMarkups(currentString string) string {
-    replacedString := strings.ReplaceAll(currentString, "`", "")
+func getStringTrimmedAndWithNoCodeMarkups(currentLine string) string {
+    replacedString := strings.ReplaceAll(currentLine, "`", "")
     return getTrimmedString(replacedString)
 }
 
-func getTrimmedString(currentString string) string {
-    return strings.Trim(currentString, " ")
+func getTrimmedString(currentLine string) string {
+    return strings.Trim(currentLine, " ")
 }
