@@ -8,4 +8,7 @@ require github.com/JustAn0therDev/tldr-go/mdparser v0.0.0-00010101000000-0000000
 
 replace github.com/JustAn0therDev/tldr-go/utils => ../utils
 
-require github.com/JustAn0therDev/tldr-go/utils v0.0.0-00010101000000-000000000000
+require (
+	github.com/JustAn0therDev/tldr-go/utils v0.0.0-00010101000000-000000000000
+	github.com/fatih/color v1.10.0 // indirect
+)
