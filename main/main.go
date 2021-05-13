@@ -17,6 +17,10 @@ import (
 
 // TODO: Create a UI module that will have the responsibility for rendering the markdown content in different colors
 
+
+// TODO: When the program (or UI handling STDOUT execution) ends, it MUST UNSET THE BUFFER COLOR. Else it will keep printing
+// other stuff after the program ended with the same last color that was used by tldr-go
+
 func main() {
     path := os.Args[1]
     fileName := os.Args[2]
