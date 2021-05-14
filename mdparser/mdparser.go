@@ -9,7 +9,7 @@ import (
 func ParseMarkdownString(mdContent string) {
     mdContentSliceSeparatedByBreakLines := strings.Split(mdContent, "\n")
     instructionMap := makeInstructionByMarkupMap()
-    
+
     for _, line := range mdContentSliceSeparatedByBreakLines {
 
         if isBiggestHeaderMarkup(line) {
