@@ -27,9 +27,9 @@ func main() {
 
     for _, fileName := range fileNames {
         fileContent, err := mdparser.GetFileContent(path, fileName)
-    
+
         utils.CheckError(err)
 
-        mdparser.ParseMarkdownString(fileContent)
+        mdparser.PrintParsedMarkdownString(fileContent)
     }
 }

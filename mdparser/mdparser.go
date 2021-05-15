@@ -6,7 +6,7 @@ import (
 	"github.com/fatih/color"
 )
 
-func ParseMarkdownString(mdContent string) {
+func PrintParsedMarkdownString(mdContent string) {
     mdContentSliceSeparatedByBreakLines := strings.Split(mdContent, "\n")
     instructionMap := makeInstructionByMarkupMap()
 
@@ -25,35 +25,37 @@ func ParseMarkdownString(mdContent string) {
 }
 
 func makeInstructionByMarkupMap() map[string]func(string) {
-    colorInstance := color.New()
     mapStringToFunc := make(map[string]func(string))
 
     mapStringToFunc["PRINT_BIGGEST_HEADER_MARKUP"] = func(s string) {
-        colorInstance.Add(color.FgRed)
-        colorInstance.Add(color.Bold)
+        currentColor := color.New()
+        currentColor.Add(color.FgRed)
+        currentColor.Add(color.Bold)
 
-        colorInstance.Println(getStringTrimmedAndWithNoHeaderMarkups(s))
+        currentColor.Println(getStringTrimmedAndWithNoHeaderMarkups(s))
     }
 
     mapStringToFunc["PRINT_HEADER_MARKUP"] = func(s string) {
-        colorInstance.Add(color.FgWhite)
-        colorInstance.Add(color.Bold)
+        currentColor := color.New()
+        currentColor.Add(color.FgWhite)
+        currentColor.Add(color.Bold)
 
-        colorInstance.Println(getStringTrimmedAndWithNoHeaderMarkups(s))
+        currentColor.Println(getStringTrimmedAndWithNoHeaderMarkups(s))
     }
 
     mapStringToFunc["PRINT_CODE_MARKUP"] = func(s string) {
-        s = getStringTrimmedAndWithNoCodeMarkups(s)
-        colorInstance.Add(color.FgCyan)
+        currentColor := color.New()
+        currentColor.Add(color.FgCyan)
 
-        colorInstance.Println(getStringTrimmedAndWithNoHeaderMarkups(s))
+        currentColor.Println(getStringTrimmedAndWithNoCodeMarkups(s))
     }
-    
-    mapStringToFunc["PRINT_DEFAULT_MARKUP"] = func(s string) {
-        s = getStringTrimmedAndWithNoCodeMarkups(s)
-        colorInstance.Add(color.FgCyan)
 
-        colorInstance.Println(getStringTrimmedAndWithNoHeaderMarkups(s))
+    mapStringToFunc["PRINT_DEFAULT_MARKUP"] = func(s string) {
+        currentColor := color.New()
+        currentColor.Add(color.FgWhite)
+        currentColor.Add(color.Bold)
+
+        currentColor.Println(getTrimmedString(s))
     }
 
     return mapStringToFunc
