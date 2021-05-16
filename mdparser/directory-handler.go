@@ -9,10 +9,6 @@ import (
 	"github.com/JustAn0therDev/tldr-go/utils"
 )
 
-// TODO: Make the functions testable. I must make them parse the file string by receiving a string, something
-// that be manipulated in runtime, not only by a file. This would have me obligated to create a test file
-// and use it in every unit test and have it versioned.
-
 // checks if a given path exists in the current application directory.
 func PathExists(path string) (bool, error) {
     _, err := os.Stat(path)
@@ -25,6 +21,14 @@ func PathExists(path string) (bool, error) {
 func GetAllMdFileNamesInPath(path string) []string {
     fileNames := []string{}
     var fileName string
+
+	pathExists, err := PathExists(path)
+
+	if !pathExists {
+		return make([]string, 0)
+	}
+
+	utils.CheckError(err)
 
     dir, err := os.Open(path)
 

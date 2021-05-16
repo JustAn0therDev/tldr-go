@@ -4,22 +4,23 @@ import (
 	"strings"
 
 	"github.com/fatih/color"
+	"github.com/JustAn0therDev/tldr-go/utils"
 )
 
 func PrintParsedMarkdownString(mdContent string) {
     mdContentSliceSeparatedByBreakLines := strings.Split(mdContent, "\n")
-    instructionMap := makeInstructionByMarkupMap()
+    instructionToPrintFunctionMap := makeInstructionByMarkupMap()
 
     for _, line := range mdContentSliceSeparatedByBreakLines {
 
-        if isBiggestHeaderMarkup(line) {
-            instructionMap["PRINT_BIGGEST_HEADER_MARKUP"](line)
-        } else if isHeaderMarkup(line) {
-            instructionMap["PRINT_HEADER_MARKUP"](line)
-        } else if isCodeMarkup(line) {
-            instructionMap["PRINT_CODE_MARKUP"](line)
+        if IsBiggestHeaderMarkup(line) {
+            instructionToPrintFunctionMap["PRINT_BIGGEST_HEADER_MARKUP"](line)
+        } else if IsHeaderMarkup(line) {
+            instructionToPrintFunctionMap["PRINT_HEADER_MARKUP"](line)
+        } else if IsCodeMarkup(line) {
+            instructionToPrintFunctionMap["PRINT_CODE_MARKUP"](line)
         } else {
-            instructionMap["PRINT_DEFAULT_MARKUP"](line)
+            instructionToPrintFunctionMap["PRINT_DEFAULT_MARKUP"](line)
         }
     }
 }
@@ -32,7 +33,7 @@ func makeInstructionByMarkupMap() map[string]func(string) {
         currentColor.Add(color.FgRed)
         currentColor.Add(color.Bold)
 
-        currentColor.Println(getStringTrimmedAndWithNoHeaderMarkups(s))
+        currentColor.Println(GetStringTrimmedAndWithNoHeaderMarkups(s))
     }
 
     mapStringToFunc["PRINT_HEADER_MARKUP"] = func(s string) {
@@ -40,14 +41,14 @@ func makeInstructionByMarkupMap() map[string]func(string) {
         currentColor.Add(color.FgWhite)
         currentColor.Add(color.Bold)
 
-        currentColor.Println(getStringTrimmedAndWithNoHeaderMarkups(s))
+        currentColor.Println(GetStringTrimmedAndWithNoHeaderMarkups(s))
     }
 
     mapStringToFunc["PRINT_CODE_MARKUP"] = func(s string) {
         currentColor := color.New()
         currentColor.Add(color.FgCyan)
 
-        currentColor.Println(getStringTrimmedAndWithNoCodeMarkups(s))
+        currentColor.Println(GetStringTrimmedAndWithNoCodeMarkups(s))
     }
 
     mapStringToFunc["PRINT_DEFAULT_MARKUP"] = func(s string) {
@@ -55,34 +56,30 @@ func makeInstructionByMarkupMap() map[string]func(string) {
         currentColor.Add(color.FgWhite)
         currentColor.Add(color.Bold)
 
-        currentColor.Println(getTrimmedString(s))
+        currentColor.Println(utils.GetTrimmedString(s))
     }
 
     return mapStringToFunc
 }
 
-func isBiggestHeaderMarkup(line string) bool {
+func IsBiggestHeaderMarkup(line string) bool {
     return strings.Count(line, "#") == 1
 }
 
-func isHeaderMarkup(line string) bool {
+func IsHeaderMarkup(line string) bool {
     return strings.Count(line, "#") >= 2
 }
 
-func isCodeMarkup(line string) bool {
+func IsCodeMarkup(line string) bool {
    return strings.Count(line, "`") >= 1
 }
 
-func getStringTrimmedAndWithNoHeaderMarkups(line string) string {
+func GetStringTrimmedAndWithNoHeaderMarkups(line string) string {
     replacedString := strings.ReplaceAll(line, "#", "")
-    return getTrimmedString(replacedString)
+    return utils.GetTrimmedString(replacedString)
 }
 
-func getStringTrimmedAndWithNoCodeMarkups(line string) string {
+func GetStringTrimmedAndWithNoCodeMarkups(line string) string {
     replacedString := strings.ReplaceAll(line, "`", "")
-    return getTrimmedString(replacedString)
-}
-
-func getTrimmedString(line string) string {
-    return strings.Trim(line, " ")
+    return utils.GetTrimmedString(replacedString)
 }
