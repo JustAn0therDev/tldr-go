@@ -9,7 +9,7 @@ import (
 
 func PrintParsedMarkdownString(mdContent string) {
     mdContentSliceSeparatedByBreakLines := strings.Split(mdContent, "\n")
-    instructionToPrintFunctionMap := makeInstructionByMarkupMap()
+    instructionToPrintFunctionMap := MakeInstructionByMarkupMap()
 
     for _, line := range mdContentSliceSeparatedByBreakLines {
 
@@ -25,7 +25,7 @@ func PrintParsedMarkdownString(mdContent string) {
     }
 }
 
-func makeInstructionByMarkupMap() map[string]func(string) {
+func MakeInstructionByMarkupMap() map[string]func(string) {
     mapStringToFunc := make(map[string]func(string))
 
     mapStringToFunc["PRINT_BIGGEST_HEADER_MARKUP"] = func(s string) {

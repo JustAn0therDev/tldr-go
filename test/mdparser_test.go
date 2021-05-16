@@ -42,8 +42,16 @@ func TestIsCodeMarkup(t *testing.T) {
 }
 
 func TestIsCodeMarkupShouldReturnFalse(t *testing.T) {
-	notACodeMarkupString := "code string"
+	notACodeMarkupString := "not a code string"
 	if mdparser.IsCodeMarkup(notACodeMarkupString) {
 		t.Errorf("The result for %v was should have been false", notACodeMarkupString)
+	}
+}
+
+func TestMakeInstructionByMarkupMap(t *testing.T) {
+	instructionToPrintFunctionMap := mdparser.MakeInstructionByMarkupMap()
+
+	if len(instructionToPrintFunctionMap) == 0 {
+		t.Error("The instruction map returned empty")
 	}
 }

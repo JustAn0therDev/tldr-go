@@ -12,7 +12,7 @@ func TestPathExists(t *testing.T) {
 	if err != nil {
 		t.Errorf("An error occurred in the PathExists func: %v", err)
 	}
-	
+
 	if !exists {
 		t.Error("The PathExists function should have returned true")
 	}
@@ -59,4 +59,3 @@ func TestGetFileContent(t *testing.T) {
 		t.Error("The content string shouldn't have returned empty")
 	}
 }
-
