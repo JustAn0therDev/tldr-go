@@ -7,10 +7,9 @@ import (
 	"github.com/JustAn0therDev/tldr-go/utils"
 )
 
-// PrintParsedMarkdownString: prints the formatted markdown strings using the instruction map provided by its depencency: MakeInstructionByMarkupMap.
-func PrintParsedMarkdownString(mdContent string) {
+// PrintParsedMarkdownString: prints the formatted markdown strings using a instruction map
+func PrintParsedMarkdownString(mdContent string, instructionToPrintFunctionMap map[string]func(string)) {
     mdContentSliceSeparatedByBreakLines := strings.Split(mdContent, "\n")
-    instructionToPrintFunctionMap := MakeInstructionByMarkupMap()
 
     for _, line := range mdContentSliceSeparatedByBreakLines {
 

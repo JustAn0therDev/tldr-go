@@ -16,7 +16,7 @@ func init() {
 // main: program entrypoint.
 func main() {
 	if len(os.Args) == 1 {
-		log.Fatalln("A directory argument must be passed in to the program.");
+		log.Fatalln("a directory argument must be passed in to the program!");
 	}
 
     path := os.Args[1]
@@ -26,16 +26,17 @@ func main() {
     utils.CheckError(err)
 
     if !pathExists {
-        log.Fatalln("path not found")
+        log.Fatalln("path not found!")
     }
 
     fileNames := mdparser.GetAllMdFileNamesInPath(path)
+	instructions := mdparser.MakeInstructionByMarkupMap()
 
     for _, fileName := range fileNames {
         fileContent, err := mdparser.GetFileContent(path, fileName)
 
         utils.CheckError(err)
 
-        mdparser.PrintParsedMarkdownString(fileContent)
+        mdparser.PrintParsedMarkdownString(fileContent, instructions)
     }
 }
