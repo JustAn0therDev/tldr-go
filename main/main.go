@@ -15,6 +15,10 @@ func init() {
 
 // main: program entrypoint.
 func main() {
+	if len(os.Args) == 1 {
+		log.Fatalln("A directory argument must be passed in to the program.");
+	}
+
     path := os.Args[1]
 
     pathExists, err := mdparser.PathExists(path)
