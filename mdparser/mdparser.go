@@ -7,6 +7,7 @@ import (
 	"github.com/JustAn0therDev/tldr-go/utils"
 )
 
+// PrintParsedMarkdownString: prints the formatted markdown strings using the instruction map provided by its depencency: MakeInstructionByMarkupMap.
 func PrintParsedMarkdownString(mdContent string) {
     mdContentSliceSeparatedByBreakLines := strings.Split(mdContent, "\n")
     instructionToPrintFunctionMap := MakeInstructionByMarkupMap()
@@ -25,6 +26,8 @@ func PrintParsedMarkdownString(mdContent string) {
     }
 }
 
+// MakeInstructionByMarkupMap: returns a map of strings mapped to a function that receives a string.
+// The keys are "instructions" and the functions print out the formatted values to STDOUT.
 func MakeInstructionByMarkupMap() map[string]func(string) {
     mapStringToFunc := make(map[string]func(string))
 
@@ -62,23 +65,28 @@ func MakeInstructionByMarkupMap() map[string]func(string) {
     return mapStringToFunc
 }
 
+// IsBiggestHeaderMarkup: returns a boolean value indicating if the line contains only one "#" chars (hashtag)
 func IsBiggestHeaderMarkup(line string) bool {
     return strings.Count(line, "#") == 1
 }
 
+// IsHeaderMarkup: returns a boolean vlaue indicating if the line contains two or more "#" chars (hashtag)
 func IsHeaderMarkup(line string) bool {
     return strings.Count(line, "#") >= 2
 }
 
+// IsCodeMarkup: returns a boolean value indication if the line contains two or more "`" chars (backtick)
 func IsCodeMarkup(line string) bool {
    return strings.Count(line, "`") >= 1
 }
 
+// GetStringTrimmedAndWithNoHeaderMarkups: returns the same string trimmed and all hashtags replaced by an empty string
 func GetStringTrimmedAndWithNoHeaderMarkups(line string) string {
     replacedString := strings.ReplaceAll(line, "#", "")
     return utils.GetTrimmedString(replacedString)
 }
 
+// GetStringTrimmedAndWithNoCodeMarkups: returns the same string trimmed and all backticks replaced by an empty string
 func GetStringTrimmedAndWithNoCodeMarkups(line string) string {
     replacedString := strings.ReplaceAll(line, "`", "")
     return utils.GetTrimmedString(replacedString)

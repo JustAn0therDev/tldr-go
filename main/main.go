@@ -8,10 +8,12 @@ import (
 	"github.com/JustAn0therDev/tldr-go/utils"
 )
 
+// init: executes as soon as the program starts.
 func init() {
     log.SetFlags(0)
 }
 
+// main: program entrypoint.
 func main() {
     path := os.Args[1]
 

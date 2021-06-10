@@ -9,7 +9,7 @@ import (
 	"github.com/JustAn0therDev/tldr-go/utils"
 )
 
-// checks if a given path exists in the current application directory.
+// PathExists: checks if a given path exists in the current application directory.
 func PathExists(path string) (bool, error) {
     _, err := os.Stat(path)
     if err == nil { return true, nil }
@@ -17,7 +17,7 @@ func PathExists(path string) (bool, error) {
     return false, err
 }
 
-// gets all filenames in the current directory that have the ".md" extension
+// GetAllMdFileNamesInPath: gets all filenames in the current directory that have the ".md" extension
 func GetAllMdFileNamesInPath(path string) []string {
     fileNames := []string{}
     var fileName string
@@ -50,7 +50,7 @@ func GetAllMdFileNamesInPath(path string) []string {
     return fileNames
 }
 
-// gets the file content by path and filename
+// GetFileContent: gets the file content by path and filename
 func GetFileContent(path string, fileName string) (string, error) {
     pathWithFileName := fmt.Sprintf("%v/%v", path, fileName)
     buffer, err := ioutil.ReadFile(pathWithFileName)
